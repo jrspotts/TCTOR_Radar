@@ -1,0 +1,2 @@
+id,storm,year,month,day,time,start_lat,start_lon,stop_lat,stop_lon,istor,cwa,warning,hasTDS,F-EF-Rating
+615673,AH2017.HGX,2017,8,26,556,29.49,-95.52,29.5,-95.54,1,HGX,0,1,1

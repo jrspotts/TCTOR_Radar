@@ -1,0 +1,2 @@
+#Quick place to storm commands that were run for easy re-running
+time python3 runCalib.py -s runs/AH2017.HGX-8/storms -rb "74.1 129.6" -tb 1.8 -m truth/AH2017.HGX/AH2017.HGX-truth.csv -sf skiplist.csv -sr 500 -mr 2500 -rs 50

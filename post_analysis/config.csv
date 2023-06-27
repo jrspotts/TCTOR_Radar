@@ -1,0 +1,2 @@
+vrota,vrotb,vrotr,maxAzShearHeight,potentialclusters,timeshiftnontor,nontortimeshiftamount,timeshifttor,tortimeshiftamount,binsizeminutes,prunebins,minbin,maxbin,rangebins,besthreshfilebase,hypo1,hypo2,hypo3,hypo4,hypo5,hypo5ef,multirange,mintsssamples,ignoreextracriteria
+0.988,0.924,1300,10000,3,1,max,0,max,5,1,-4,2,4,bestthresholds,0,0,0,0,0,0,1,15,1

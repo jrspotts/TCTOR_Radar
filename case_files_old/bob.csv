@@ -1,0 +1,2 @@
+id,storm,year,month,day,time,start_lat,start_lon,stop_lat,stop_lon,istor,cwa,warning
+Bob,bob,2021,07,29,2051,40.19,-80.99,40.19,-80.99,0,HGX,1

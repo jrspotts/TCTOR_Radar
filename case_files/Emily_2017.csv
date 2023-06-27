@@ -1,0 +1,4 @@
+id,storm,year,month,day,time,start_lat,start_lon,stop_lat,stop_lon,istor,F-EF-Rating,class
+NTA,AE2017,2017,7,31,1449,27.53,-82.64,27.53,-82.64,0,-1,0
+NTB,AE2017,2017,8,1,56,27.05,-80.61,27.05,-80.61,0,-1,0
+NTC,AE2017,2017,8,1,159,26.71,-80.61,26.71,-80.61,0,-1,0
