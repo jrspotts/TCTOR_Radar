@@ -1,21 +1,19 @@
 <?xml version="1.1" encoding="utf-8"?>
 
-<!-- See README for Information on each -->
 <Configuration>
-	<!-- List the and variables to be used as pre-processing input.
-	     This is the section that will need to be eddited the most -->
+	<!-- List the variables to be used as pre-processing input. -->
 	<Input>
-		<CaseFile>case_files/bob.csv</CaseFile>
+		<CaseFile>case_files/bob.csv</CaseFile> <!-- Default case file if one is not specified from the command line or GUI. -->
 		<Storm>bob</Storm>
                 <TrackCluster>ttrapcfg/clusterCFG/trackClusterCfg.xml</TrackCluster>
-                <!-- These shear clusters are bases. tilt.xml needs to be added to each where tilt is 
-                     the elevation angle -->
+                <!-- These are (Az)shear-cluster path/files. tilt.xml needs to be added to each after the underscore where tilt is 
+                     the elevation angle when creating the files. -->
                 <ShearCluster>ttrapcfg/clusterCFG/maxShearClusterCfg_</ShearCluster>
                 <MinShearCluster>ttrapcfg/clusterCFG/minShearClusterCfg_</MinShearCluster>
                 <TopCluster>ttrapcfg/clusterCFG/topClusterCfg.xml</TopCluster>
 	</Input>
 
-	<!-- Lists the different folders to be used by TTRAP -->
+	<!-- Lists the different folders to be used by TTRAP. -->
 	<Directories>
 		<BaseDir>storms</BaseDir>
 		<Case name="cases">
@@ -28,46 +26,46 @@
                         <NSE>nse</NSE>
                         <RAPConv>rapconv</RAPConv>
 		</Case>
-		<ProcessedCases>input</ProcessedCases>
+		<ProcessedCases>input</ProcessedCases> <!--Old configuration. Likely not used. -->
 		<Modules>ttrappy</Modules>	
 	</Directories>
 
 
-	<!-- Processing Parameters -->
+	<!-- Processing Parameters. -->
 	<Processing>
-		<SimFactorMerge>200</SimFactorMerge> <!-- The factor relative to real time to feed data to w2merger from w2simualtor -->
-		<NotifyChunks>1000</NotifyChunks> <!-- The number of milliseconds a chunk of data covers that are sent to the algorithms from w2simulator -->
-		<LatOffset>0.3</LatOffset>
-		<LonOffset>0.3</LonOffset>
-		<GridTime>300</GridTime>
+		<SimFactorMerge>200</SimFactorMerge> <!-- The factor relative to real time to feed data to w2merger from w2simulator. -->
+		<NotifyChunks>1000</NotifyChunks> <!-- The number of milliseconds a chunk of data covers that are sent to the algorithms from w2simulator. -->
+		<LatOffset>0.3</LatOffset> <!-- Number of degrees in the latitudinal (next line longitudinal) to offset the boundaries from the reference point... --> 
+		<LonOffset>0.3</LonOffset> <!-- For example, using 0.5 for each would yield a 1X1 degree domain around the case. -->
+		<GridTime>300</GridTime> <!-- Number of seconds between outputs for w2merger. -->
 
-		<!-- WDSSII Interpolation for Reflecitivity (and VIL) and Velocity Products repectively. See w2merger documentation for list of options. -->
+		<!-- WDSS-II interpolation for Reflecitivity (and VIL) and "Velocity" products (Velocity, AzShear, Correlation Coeffecient, ZDR, etc.) repectively. See w2merger documentation for list of options. -->
 		<ReflectivityMethod>7</ReflectivityMethod>
-                <Sigma>5 2500</Sigma> <!-- Number denominator of exponent for exponential weighting (Method 7). Needs "time distance" even though time is turned off. 2500 for the distance was determined heuristically from Lakshmanan and Humphrey 2014 -->
+                <Sigma>5 2500</Sigma> <!-- Number for the denominator of exponent for exponential weighting (Method 7). Needs "time distance" even though time is turned off. 2500 for the distance was determined heuristically from Lakshmanan and Humphrey (2014). -->
 		<VelocityMethod>3</VelocityMethod>
 
-		<StormTable>clustertable</StormTable> <!-- What use as the storm centroid. Enter viltable (use VIL) or reftable (use QC'd Reflectivity). -->
-		<ShedVar>refcomp</ShedVar> <!-- ref, refcomp, or vil -->
-		<ShedAlt>03.00</ShedAlt> <!-- Altitude to use for the shed format nn.nn in km -->
+		<StormTable>clustertable</StormTable> <!-- (Not Used) What to use as the storm centroid. Enter viltable (use VIL), reftable (use QC'd Reflectivity), or clustertable. -->
+		<ShedVar>refcomp</ShedVar> <!-- ref, refcomp, or vil. -->
+		<ShedAlt>03.00</ShedAlt> <!-- (Only used in obselete code) Altitude to use for the shed format nn.nn in km. -->
 		
-		<ShearCressman>0</ShearCressman> <!-- Use cressman weighting for AzShear calculations? 0 for no, 1 for yes -->
+		<ShearCressman>0</ShearCressman> <!-- Use Cressman weighting for AzShear calculations? 0 for no, 1 for yes. -->
 		
-		<!-- These switches are used to controll the stages of the WDSSII function that get run. Recommended to run all unless you know what you're doing -->
-		<DoIngest>1</DoIngest> <!-- Ingest the model and radar data -->
-		<DoQC>1</DoQC> <!-- Run wqcnndp and dealiasVel on the data -->
-		<DoAzShearET>1</DoAzShearET> <!-- Calculate AzShear and Echo Tops(see threshold shear in ThresholdAzShear and Echo Top in the Misc section) -->
-		<DoTDS>1</DoTDS> <!-- Calculate the TDS pixels -->
-		<MakeGrids>1</MakeGrids> <!-- Put the data used/created so far onto a grid -->
-		<DoCluster>1</DoCluster> <!-- Create clusters -->
-		<DoBTRT>1</DoBTRT> <!-- Run archiveBTRT.py on the created clusters -->
-		<DoCSV>1</DoCSV> <!-- Run w2hailtruth_size and convert the resulting cluster tables to CSV files -->
+		<!-- These switches are used to controll the stages of the WDSS-II function that gets run (0 for skip, 1 for run). Recommended to run all unless you know what you're doing. -->
+		<DoIngest>1</DoIngest> <!-- Ingest the model and radar data. -->
+		<DoQC>1</DoQC> <!-- Run wqcnndp and dealiasVel on the data. -->
+		<DoAzShearET>1</DoAzShearET> <!-- Calculate AzShear and Echo Tops (see threshold shear in ThresholdAzShear and Echo Top in the Misc section). -->
+		<DoTDS>1</DoTDS> <!-- Calculate the TDS pixels. -->
+		<MakeGrids>1</MakeGrids> <!-- Put the data used/created so far onto a grid. -->
+		<DoCluster>1</DoCluster> <!-- Create clusters. -->
+		<DoBTRT>1</DoBTRT> <!-- Run archiveBTRT.py on the created clusters. -->
+		<DoCSV>1</DoCSV> <!-- Run w2hailtruth_size and convert the resulting cluster tables to CSV files. -->
 	</Processing>
 
-	<!-- Domain Information -->
+	<!-- Domain Information. -->
 	<Domain>
 		<!-- Top: Top of domain in km. Bottom: Bottom of domain in km. HSpacing: Horizontal spacing in degrees.
 		HVSpacing: Horizontal spacing in degrees for velocity products. VSpacing: Vertical spacing in km for VIL and ET mergers. VVSpacing for everything else. -->
-		<!-- VTop is the top of the domain for velocity products in km -->
+		<!-- VTop is the top of the domain for velocity products in km. -->
 		<Top>20</Top>
 		<VTop>3.0</VTop>
 		<Bottom>0.0</Bottom>
@@ -75,134 +73,139 @@
 		<HVSpacing>0.0025</HVSpacing>
 		<VSpacing>0.5</VSpacing>
 		<VVSpacing>0.183</VVSpacing>
-                <TiltList>0.5 0.9 1.3 1.45 1.8 2.4</TiltList> <!-- List of tilts from the radars to calculate products for -->
+                <TiltList>0.5 0.9 1.3 1.45 1.8 2.4</TiltList> <!-- List of tilts from the radars to calculate products for. -->
 	</Domain>
 
 	<Misc>
-		<Radarinfo>ttrapcfg/radarinfo.xml</Radarinfo>
-		<EchoTop>20</EchoTop>
+		<Radarinfo>ttrapcfg/radarinfo.xml</Radarinfo> <!-- WDSS-II xml file containing information for each radar. -->
+		<EchoTop>20</EchoTop> <!-- dBZ thresholds for echo-top calculations. -->
 		<TimeBinIncrement>5</TimeBinIncrement> <!-- Size of the bins in minutes relative to the point of interest. e.g. 1 minute means data that falls
-                                                        within 30 seconds on either side of the point of interest will be assigned to the point of interest.
-                                                        These bins are then spaced TimeBinIncrement steps apart. -->
+												within 30 seconds on either side of the point of interest will be assigned to the point of interest.
+												These bins are then spaced TimeBinIncrement steps apart. -->
 		
-		<NumRadars>2</NumRadars>
-		<NumVelRadars>1</NumVelRadars> <!-- Using 1 radar for velocity recommended. Multiple radars cause merging issues for Velocity -->
+		<NumRadars>2</NumRadars> <!-- Calculate merged products (reflectivity/VIL) from NumRadars of the nearest radars (e.g., 5 means use the nearest five radars). -->
+		<NumVelRadars>1</NumVelRadars> <!-- Same for velocity/dual-polarziation (tilt-based) products. Using 1 radar for velocity recommended. Multiple radars cause merging issues for Velocity. -->
                 
                 <CreateCache>1</CreateCache> <!-- Pre-creates cache for w2merger into w2mergercache folder. Useful if you don't want files saved to .w2mergercache. 
-                                                  May need to point .w2mergercache to the w2mergercache folder. 0 for disabled, 1 or other for enabled -->
+										  May need to point .w2mergercache to the w2mergercache folder. 0 for disabled, 1 or other for enabled. -->
+										  
 		<UseSails>0</UseSails> <!-- Use SAILS? 1 Includes SAILS cuts in with the other sweeps. 0 Places them in separate "EXTRA" folders and they do not get included. -->
                 
-                <!-- Minutes before and after the given time to pull radar data from -->
+        <!-- Minutes before and after the reference time to pull radar data from. -->
 		<RadarStart>24</RadarStart>
 		<RadarEnd>10</RadarEnd>
                 
-		<!-- The maximum deviation the direction (in degrees) the AzShear cluster of interest can be before an interest check is performed -->
+		<!-- The maximum deviation the direction (in degrees) the AzShear cluster of interest can be before an interest check is performed. -->
 		<MaxBearingDeviation>50</MaxBearingDeviation>
 		
-		<!-- Set the max time ahead of the lowest level tilt you a sweep can be attended -->
-		<MaxAppendTimeV>3.5</MaxAppendTimeV> <!-- Minutes -->
-		<MaxAppendTimeR>5</MaxAppendTimeR> <!-- The same thing, but for reflectivity based products -->
+		<!-- Set the max time ahead of the lowest-level tilt for which a higher tilt can be attatched. -->
+		<MaxAppendTimeV>3.5</MaxAppendTimeV> <!-- Minutes. -->
+		<MaxAppendTimeR>5</MaxAppendTimeR> <!-- The same thing, but for reflectivity-based products (VIL/Echo Tops). -->
 		
-		<UseCropConv>1</UseCropConv> <!-- Use the w2cropconv program to create single-tilt grids versus taking the composite of a grid using a single-tilt with w2merger -->
-		<NearestNeighbor>0</NearestNeighbor> <!-- If using the w2cropconv program above, use nearest-neighbor resampling instead of the 4-neighborhood cressman interpolation -->
+		<UseCropConv>1</UseCropConv> <!-- (0 for no, 1 for yes) Use the w2cropconv program to create single-tilt grids versus taking the composite of a grid using a single-tilt with w2merger. -->
+		<NearestNeighbor>0</NearestNeighbor> <!-- (0 for no, 1 for yes) If using the w2cropconv program above, use nearest-neighbor resampling instead of the 4-neighborhood Cressman interpolation. -->
 		
-		<ThresholdAzShear>1</ThresholdAzShear> <!-- Threshold AzShear by the RefletivityQC (at the time of this writing, w2circ does not threshold like it should. This thresholding is done using w2threshold -->
-		<ThresholdValue>20</ThresholdValue> <!-- The ReflectivityQC value in dBZ by which to threshold AzShear -->
+		<ThresholdAzShear>1</ThresholdAzShear> <!-- (0 for no, 1 for yes) Threshold AzShear by the RefletivityQC. -->
+		<ThresholdValue>20</ThresholdValue> <!-- The ReflectivityQC value in dBZ by which to threshold AzShear. -->
 		
                 <UseMeanMotion>1</UseMeanMotion> <!-- Use the average motion vector of a cluster instead of the instantaneous for performing projections and interest score calculations. Note that all motions will be used so if you run the analysis
-                                                      over a larger timerange, any valid deviations in the motion will be more difficult to incorporate -->
-		<!-- Start defining the interest score parameters here -->
-		<MinInterestShear>0.2</MinInterestShear> <!-- The minimum interest score needed to associate shear clusters with each other -->
-		<MinInterestTrack>0.2</MinInterestTrack> <!-- The minimum interest score needed to associate a shear group with a track cluster -->
-		<MinInterestTop>0.2</MinInterestTop> <!-- The minimum interest score needed to associate a track cluster with a echo top cluster -->
+                                                      over a larger time range, any valid deviations in the motion may be more difficult to incorporate. -->
+													  
+		<!-- Start defining the interest score parameters here. -->
+		<MinInterestShear>0.2</MinInterestShear> <!-- The minimum interest score needed to associate (Az)shear clusters with each other. -->
+		<MinInterestTrack>0.2</MinInterestTrack> <!-- The minimum interest score needed to associate a shear group with a track cluster. -->
+		<MinInterestTop>0.2</MinInterestTop> <!-- The minimum interest score needed to associate a track cluster with an echo-top cluster. -->
 
-		<MaxInterestDistShearInitial>10</MaxInterestDistShearInitial> <!-- (km) The maximum distance shear clusters can be separated and still be associated at the reference time -->
-                <MaxInterestDistShear>7.5</MaxInterestDistShear> <!-- (km) The maximum distance shear clusters can be separated and still be associated -->
-                <MaxInterestDistShearTilt>5</MaxInterestDistShearTilt> <!--- (km) The maximum distance shear cluster can be separated and still be associated when associating individual tilts -->
-		<MaxInterestDistTrack>15</MaxInterestDistTrack> <!-- (km) The maximum distance track clusters can be separated from shear groups and still be associated -->
-		<MaxInterestDistTop>20</MaxInterestDistTop> <!-- (km) The maximum distance track clusters can be separated from echo top clusters and still be associated -->
+		<MaxInterestDistShearInitial>10</MaxInterestDistShearInitial> <!-- (km) The maximum distance shear clusters can be separated and still be associated at the reference time. -->
+                <MaxInterestDistShear>7.5</MaxInterestDistShear> <!-- (km) The maximum distance shear clusters can be separated and still be associated. -->
+                <MaxInterestDistShearTilt>5</MaxInterestDistShearTilt> <!-- (km) The maximum distance shear cluster can be separated and still be associated when associating individual tilts. -->
+		<MaxInterestDistTrack>15</MaxInterestDistTrack> <!-- (km) The maximum distance track clusters can be separated from shear groups and still be associated. -->
+		<MaxInterestDistTop>20</MaxInterestDistTop> <!-- (km) The maximum distance track clusters can be separated from echo top clusters and still be associated. -->
 		
-		<!-- Below are the weights for individual components of the interest score. Dist for distance, vector for difference between wind and bearing, intensity for the intensity term -->
+		<!-- Below are the weights for individual components of the interest score. Dist for distance, vector for difference between wind or motion and cluster-to-cluster bearing, intensity for the intensity term. -->
 		<ShearInterestDistWeight>0.90</ShearInterestDistWeight>
 		<ShearInterestVectorWeight>0.25</ShearInterestVectorWeight>
 		<ShearInterestIntensityWeight>1.80</ShearInterestIntensityWeight>
-		<ShearVectorDistFactor>0.49</ShearVectorDistFactor> <!-- Multiplier to activate maximum bearing criteria in shear-to-shear interest score calculation or association checks. That is
+		<ShearVectorDistFactor>0.49</ShearVectorDistFactor> <!-- Multiplier to activate maximum bearing criteria in shear-to-shear interest score calculation. That is
 																a value of 0.7 indicates that if the distance between two clusters is less than or equal to 70% of the MaxInterestDistShear, then
 																MaxBearingDeviation won't be used to disqualify an assoctiation. If the distance is more than 70% the max, then bearing deviation from
-																the 0.5 deg AzShear cluster motion will be checked. An association won't occur of that difference is more than MaxBearingDeviation -->
-		<ProjectReference>1</ProjectReference> <!-- Calculate interest scores for AzShear based on the projected lowest-level AzShear location, rather than it's current location -->
-                <ProjectFraction>0.610</ProjectFraction> <!-- By what factor along the projected path should we place the point to calculate the interest score from (e.g., 1: the actual location, 0.5: halfway there, 2: double the distance, etc.) -->
+																the 0.5 deg AzShear cluster motion will be checked. An association won't occur of that difference is more than MaxBearingDeviation. -->
+																
+		<ProjectReference>1</ProjectReference> <!-- Calculate interest scores for AzShear based on the projected lowest-level AzShear location, rather than it's current location. -->
+        <ProjectFraction>0.610</ProjectFraction> <!-- By what factor along the projected path should we place the point to calculate the interest score from (e.g., 1: the actual location, 0.5: halfway there, 2: double the distance, etc.). -->
                 
-                <TrackInterestDistWeight>1.15</TrackInterestDistWeight>
+        <!-- VIL interest-score weights. -->
+		<TrackInterestDistWeight>1.15</TrackInterestDistWeight>
 		<TrackInterestVectorWeight>0.75</TrackInterestVectorWeight>
 		<TrackInterestIntensityWeight>0.0</TrackInterestIntensityWeight>
 		
+		<!-- Echo-top interest-score weights. -->
 		<TopInterestDistWeight>1.2</TopInterestDistWeight>
 		<TopInterestVectorWeight>1.16</TopInterestVectorWeight>
 		<TopInterestIntensityWeight>0.0</TopInterestIntensityWeight>
                 
                 
-        <UseRap>1</UseRap> <!-- Include RAP data (config below)? 0 for no, 1 for yes -->
-		<RAPCurrentLink>https://www.ncei.noaa.gov/data/rapid-refresh/access/rap-130-13km/analysis/</RAPCurrentLink> <!-- Download link to the more recent RAP data -->
-		<RAPHistoricalLink>https://www.ncei.noaa.gov/data/rapid-refresh/access/historical/analysis/</RAPHistoricalLink> <!-- Download link to the histiorical RAP data -->
-		<RAPOffset>5</RAPOffset> <!-- Number of minutes to download data on either side of the radar data -->
-		<RAPTemplate>rap_130_${year}${month}${day}_${hour}00_000.grb2</RAPTemplate> <!-- String template for rap file names -->
+        <UseRap>1</UseRap> <!-- Include RAP data (config below)? 0 for no, 1 for yes. -->
+		<RAPCurrentLink>https://www.ncei.noaa.gov/data/rapid-refresh/access/rap-130-13km/analysis/</RAPCurrentLink> <!-- Download link to the more recent RAP data. -->
+		<RAPHistoricalLink>https://www.ncei.noaa.gov/data/rapid-refresh/access/historical/analysis/</RAPHistoricalLink> <!-- Download link to the histiorical RAP data. -->
+		<RAPOffset>5</RAPOffset> <!-- Number of minutes to download data on either side of the radar data. -->
+		<RAPTemplate>rap_130_${year}${month}${day}_${hour}00_000.grb2</RAPTemplate> <!-- String template for RAP file names. -->
 	
-		<!-- Section for clustering parameters of the tracking field -->
-		<TrackClusterMax>550</TrackClusterMax> <!-- Maximum of tracking field to use in cluster (e.g. minimum reflectivity to start a cluster) -->
-		<TrackClusterMin>400</TrackClusterMin> <!-- Minimum of tracking field to include in a cluster (e.g. values below this threshold are not included -->
-		<TrackIncrement>1</TrackIncrement> <!-- Amount to increment from ClusterMax to ClusterMin by until the size criteria is met -->
+		<!-- Section for clustering parameters of the tracking field (VIL or CompRef). -->
+		<TrackClusterMax>550</TrackClusterMax> <!-- Maximum of tracking field to use in cluster (e.g. minimum reflectivity to start a cluster). Values are scaled by 100 (e.g., 700 corresponds to 7.0 kg/m^2). -->
+		<TrackClusterMin>400</TrackClusterMin> <!-- Minimum of tracking field to include in a cluster (e.g. values below this threshold are not included). Values are also scaled by 100. -->
+		<TrackIncrement>1</TrackIncrement> <!-- Amount to increment from ClusterMax to ClusterMin by until the size criteria is met. -->
 		<TrackClusterMaxDepth>-1</TrackClusterMaxDepth>
 		<TrackClusterLambda>0.4</TrackClusterLambda>
-		<TrackClusterScale0>160</TrackClusterScale0> <!-- Size of the smallest cluster in pixels -->
-		<TrackClusterScale1>130</TrackClusterScale1> <!-- Size of the mid-sized cluster in pixels -->
-		<TrackClusterScale2>200</TrackClusterScale2> <!--- Size of the largest cluster in pixels -->
-		<TrackClusterIsolate>0</TrackClusterIsolate> <!-- 1 if larger storms should contain smaller, isolated storms. 0 otherwise -->
-		<TrackClusterCombine0>0</TrackClusterCombine0> <!-- Factor by which to combine adjacent cells for the smallest scale. Cells within factor*sqrt(min_size) are cominbed -->
-		<TrackClusterCombine1>0</TrackClusterCombine1> <!-- Same as above, but for medium scale -->
-		<TrackClusterCombine2>0</TrackClusterCombine2> <!-- Same as above, but for largest scale -->
+		<TrackClusterScale0>160</TrackClusterScale0> <!-- Size of the smallest cluster in pixels. -->
+		<TrackClusterScale1>130</TrackClusterScale1> <!-- Size of the mid-sized cluster in pixels. -->
+		<TrackClusterScale2>200</TrackClusterScale2> <!-- Size of the largest cluster in pixels. -->
+		<TrackClusterIsolate>0</TrackClusterIsolate> <!-- 1 if larger storms should contain smaller, isolated storms. 0 otherwise. -->
+		<TrackClusterCombine0>0</TrackClusterCombine0> <!-- Factor by which to combine adjacent cells for the smallest scale. Cells within factor*sqrt(min_size) are combined. -->
+		<TrackClusterCombine1>0</TrackClusterCombine1> <!-- Same as above, but for the medium scale. -->
+		<TrackClusterCombine2>0</TrackClusterCombine2> <!-- Same as above, but for the largest scale. -->
 
-		<!-- Section for clustering parameters of MaxAzShear -->
-		<ShearClusterMax>2500</ShearClusterMax> <!-- Maximum of AzShear field to use in cluster (e.g. minimum AzShear to start a cluster) -->
-		<ShearClusterMin>2400</ShearClusterMin> <!-- Minimum of AzShear field to include in a cluster (e.g. values below this threshold are not included -->
-		<ShearIncrement>1</ShearIncrement> <!-- Amount to increment from ClusterMax to ClusterMin by until the size criteria is met -->
+		<!-- Section for clustering parameters of MaxAzShear. -->
+		<ShearClusterMax>2500</ShearClusterMax> <!-- Maximum of AzShear to use in cluster (e.g. minimum AzShear to start a cluster). Values are scaled by 1,000,000 (e.g., 10000 corresponds to 0.01 s^-1). -->
+		<ShearClusterMin>2400</ShearClusterMin> <!-- Minimum of tracking field to include in a cluster (e.g. values below this threshold are not included). Values are also scaled by 1,000,000.  -->
+		<ShearIncrement>1</ShearIncrement> <!-- Amount to increment from ClusterMax to ClusterMin by until the size criteria is met. -->
 		<ShearClusterMaxDepth>-1</ShearClusterMaxDepth>
 		<ShearClusterLambda>0.4</ShearClusterLambda>
-		<ShearClusterScale0>16</ShearClusterScale0> <!-- Size of the smallest cluster in pixels -->
-		<ShearClusterScale1>130</ShearClusterScale1> <!-- Size of the mid-sized cluster in pixels -->
-		<ShearClusterScale2>200</ShearClusterScale2> <!--- Size of the largest cluster in pixels -->
-		<ShearClusterIsolate>0</ShearClusterIsolate> <!-- 1 if larger storms should contain smaller, isolated storms. 0 otherwise -->
-		<ShearClusterCombine0>0</ShearClusterCombine0> <!-- Factor by which to combine adjacent cells for the smallest scale. Cells within factor*sqrt(min_size) are cominbed -->
-		<ShearClusterCombine1>0</ShearClusterCombine1> <!-- Same as above, but for medium scale -->
-		<ShearClusterCombine2>0</ShearClusterCombine2> <!-- Same as above, but for largest scale -->
+		<ShearClusterScale0>16</ShearClusterScale0> <!-- Size of the smallest cluster in pixels. -->
+		<ShearClusterScale1>130</ShearClusterScale1> <!-- Size of the mid-sized cluster in pixels. -->
+		<ShearClusterScale2>200</ShearClusterScale2> <!-- Size of the largest cluster in pixels. -->
+		<ShearClusterIsolate>0</ShearClusterIsolate> <!-- 1 if larger storms should contain smaller, isolated storms. 0 otherwise. -->
+		<ShearClusterCombine0>0</ShearClusterCombine0> <!-- Factor by which to combine adjacent cells for the smallest scale. Cells within factor*sqrt(min_size) are combined. -->
+		<ShearClusterCombine1>0</ShearClusterCombine1> <!-- Same as above, but for the medium scale. -->
+		<ShearClusterCombine2>0</ShearClusterCombine2> <!-- Same as above, but for largest scale. -->
 		
-		<!-- Section for clustering parameters of MinAzShear -->
-		<MinShearClusterMax>2500</MinShearClusterMax> <!-- Maximum of AzShear field to use in cluster (e.g. minimum AzShear to start a cluster) -->
-		<MinShearClusterMin>2400</MinShearClusterMin> <!-- Minimum of AzShear field to include in a cluster (e.g. values below this threshold are not included -->
-		<MinShearIncrement>1</MinShearIncrement> <!-- Amount to increment from ClusterMax to ClusterMin by until the size criteria is met -->
+		<!-- Section for clustering parameters of MinAzShear. -->
+		<MinShearClusterMax>2500</MinShearClusterMax> <!-- Maximum of AzShear to use in cluster (e.g. minimum AzShear to start a cluster). Values are scaled by 1,000,000 (e.g., 10000 corresponds to 0.01 s^-1). -->
+		<MinShearClusterMin>2400</MinShearClusterMin> <!-- Minimum of tracking field to include in a cluster (e.g. values below this threshold are not included). Values are also scaled by 1,000,000. -->
+		<MinShearIncrement>1</MinShearIncrement> <!-- Amount to increment from ClusterMax to ClusterMin by until the size criteria is met. -->
 		<MinShearClusterMaxDepth>-1</MinShearClusterMaxDepth>
 		<MinShearClusterLambda>0.4</MinShearClusterLambda>
-		<MinShearClusterScale0>16</MinShearClusterScale0> <!-- Size of the smallest cluster in pixels -->
-		<MinShearClusterScale1>130</MinShearClusterScale1> <!-- Size of the mid-sized cluster in pixels -->
-		<MinShearClusterScale2>200</MinShearClusterScale2> <!--- Size of the largest cluster in pixels -->
-		<MinShearClusterIsolate>0</MinShearClusterIsolate> <!-- 1 if larger storms should contain smaller, isolated storms. 0 otherwise -->
-		<MinShearClusterCombine0>0</MinShearClusterCombine0> <!-- Factor by which to combine adjacent cells for the smallest scale. Cells within factor*sqrt(min_size) are cominbed -->
-		<MinShearClusterCombine1>0</MinShearClusterCombine1> <!-- Same as above, but for medium scale -->
-		<MinShearClusterCombine2>0</MinShearClusterCombine2> <!-- Same as above, but for largest scale -->
+		<MinShearClusterScale0>16</MinShearClusterScale0> <!-- Size of the smallest cluster in pixels. -->
+		<MinShearClusterScale1>130</MinShearClusterScale1> <!-- Size of the mid-sized cluster in pixels. -->
+		<MinShearClusterScale2>200</MinShearClusterScale2> <!-- Size of the largest cluster in pixels. -->
+		<MinShearClusterIsolate>0</MinShearClusterIsolate> <!-- 1 if larger storms should contain smaller, isolated storms. 0 otherwise. -->
+		<MinShearClusterCombine0>0</MinShearClusterCombine0> <!-- Factor by which to combine adjacent cells for the smallest scale. Cells within factor*sqrt(min_size) are combined. -->
+		<MinShearClusterCombine1>0</MinShearClusterCombine1> <!-- Same as above, but for the medium scale. -->
+		<MinShearClusterCombine2>0</MinShearClusterCombine2> <!-- Same as above, but for the largest scale. -->
 
-		<!-- Section for clustering parameters of Echo Tops -->
-		<TopClusterMax>600</TopClusterMax> <!-- Maximum of echo-top field to use in cluster (e.g. minimum echo top to start a cluster) -->
-		<TopClusterMin>500</TopClusterMin> <!-- Minimum of echo-top field to include in a cluster (e.g. values below this threshold are not included -->
-		<TopIncrement>1</TopIncrement> <!-- Amount to increment from ClusterMax to ClusterMin by until the size criteria is met -->
+		<!-- Section for clustering parameters of Echo Tops. -->
+		<TopClusterMax>600</TopClusterMax> <!-- Maximum of the echo-top field to use in cluster (e.g. minimum echo top to start a cluster). Values are scaled by 100.  -->
+		<TopClusterMin>500</TopClusterMin> <!-- Minimum of echo-top field to include in a cluster (e.g. values below this threshold are not included). Values are also scaled by 100.  -->
+		<TopIncrement>1</TopIncrement> <!-- Amount to increment from ClusterMax to ClusterMin by until the size criteria is met. -->
 		<TopClusterMaxDepth>0.1</TopClusterMaxDepth>
 		<TopClusterLambda>0.4</TopClusterLambda>
-		<TopClusterScale0>80</TopClusterScale0> <!-- Size of the smallest cluster in pixels -->
-		<TopClusterScale1>130</TopClusterScale1> <!-- Size of the mid-sized cluster in pixels -->
-		<TopClusterScale2>200</TopClusterScale2> <!--- Size of the largest cluster in pixels -->
-		<TopClusterIsolate>0</TopClusterIsolate> <!-- 1 if larger storms should contain smaller, isolated storms. 0 otherwise -->
-		<TopClusterCombine0>0</TopClusterCombine0> <!-- Factor by which to combine adjacent cells for the smallest scale. Cells within factor*sqrt(min_size) are cominbed -->
-		<TopClusterCombine1>0</TopClusterCombine1> <!-- Same as above, but for medium scale -->
-		<TopClusterCombine2>0</TopClusterCombine2> <!-- Same as above, but for largest scale -->
+		<TopClusterScale0>80</TopClusterScale0> <!-- Size of the smallest cluster in pixels. -->
+		<TopClusterScale1>130</TopClusterScale1> <!-- Size of the mid-sized cluster in pixels. -->
+		<TopClusterScale2>200</TopClusterScale2> <!-- Size of the largest cluster in pixels. -->
+		<TopClusterIsolate>0</TopClusterIsolate> <!-- 1 if larger storms should contain smaller, isolated storms. 0 otherwise. -->
+		<TopClusterCombine0>0</TopClusterCombine0> <!-- Factor by which to combine adjacent cells for the smallest scale. Cells within factor*sqrt(min_size) are combined. -->
+		<TopClusterCombine1>0</TopClusterCombine1> <!-- Same as above, but for the medium scale. -->
+		<TopClusterCombine2>0</TopClusterCombine2> <!-- Same as above, but for the largest scale. -->
 	</Misc>
     
 

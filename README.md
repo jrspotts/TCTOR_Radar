@@ -64,7 +64,7 @@ TTRAP will iterate through these cases and process them.
 
 #### Config Files
 
-Config files for TTRAP are found in ttrapcfg/configs. These include information about where to find various files, weights used in cluster tracking, and options to pass to WDSS-II algorithm. To save space, these options for each are not explained here. A separate README might be made, but for the time being, ignore the first comment in these files. There may a few obsolete options. 
+Config files for TTRAP are found in ttrapcfg/configs. These include information about where to find various files, weights used in cluster tracking, and options to pass to WDSS-II algorithm. Some configuration parameters in the default config.xml are not the same as in the Spotts (2023) analysis. After performing the analysis, some comments were edited or added to the files for clarification. 
 
 #### Figure Generation Processes
 
